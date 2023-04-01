@@ -20,8 +20,9 @@ def get_product_info(url):
     title_element = soup.select_one("#productTitle")
     title = title_element.text.strip() if title_element else None
 
-    price_element = soup.select_one("#a-price-whole")
-    price = price_element.text if price_element else None
+    price_whole = soup.select_one("span.a-price-whole")
+    
+    price = (price_whole.text) if (price_whole.text) else None
 
     rating_element = soup.select_one("#acrPopover")
     rating_text = rating_element.attrs.get("title") if rating_element else None

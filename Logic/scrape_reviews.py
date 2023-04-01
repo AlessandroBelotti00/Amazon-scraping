@@ -30,7 +30,7 @@ def scraping_review(link, limit):
         print(link_with_page)
         
         # find all review containers on page
-        review_containers = soup.find_all('div', {'data-hook': 'review'})
+        review_containers = soup.select_one('#a-section review aok-relative')
         
         #if len(review_containers) == 0:
         #    print('Review con il primo metodo non disponibile')
