@@ -14,13 +14,13 @@ def get_product_info(url):
     if response.status_code != 200:
         print("Error in getting webpage")
         exit(-1)
-    
-    #print(response.text)
+        
+    print(response.status_code)
     soup = BeautifulSoup(response.text, "lxml")
     title_element = soup.select_one("#productTitle")
     title = title_element.text.strip() if title_element else None
 
-    price_element = soup.select_one("#price")
+    price_element = soup.select_one("#a-price-whole")
     price = price_element.text if price_element else None
 
     rating_element = soup.select_one("#acrPopover")
@@ -30,16 +30,28 @@ def get_product_info(url):
     image_element = soup.select_one("#landingImage")
     image = image_element.attrs.get("src") if image_element else None
 
-    description_element = soup.select_one("#productDescription")
-    description = description_element.text.strip() if description_element else None
+    #Rimosso perchè spesso vengono utilizzate delle immagini al posto del testo
+    #description_element = soup.select_one("#productDescription")
+    #description = description_element.text.strip() if description_element else None
+    
+    #Serve per catturare il prezzo, con selettore xml non va bene
+    soup = BeautifulSoup(response.text, 'html.parser')
 
+    # assume 'html_doc' contains the HTML you want to parse
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # select the <span> tag with class "a-price-whole"
+    price_tag = soup.select_one('span.a-price-whole')
+
+    # get the text inside the <span> tag
+    #price = price_tag.text
 
     return {
         "title": title,
         "price": price,
         "rating": rating,
         "image": image,
-        "description": description,
+        #"description": description,
         "url": url,
     }
 
